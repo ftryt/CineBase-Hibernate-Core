@@ -1,0 +1,27 @@
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <property name="connection.driver_class">oracle.jdbc.OracleDriver</property>
+        <property name="connection.url">jdbc:oracle:thin:@//217.173.198.135:1521/tpdb</property>
+        <property name="connection.username">s105740</property>
+        <property name="connection.password">s105740</property>
+        <property name="dialect">org.hibernate.dialect.OracleDialect</property>
+        <property name="show_sql">true</property>
+
+<!--        <property name="hbm2ddl.auto">update</property>-->
+        <property name="hbm2ddl.auto">create-drop</property>
+
+        <property name="hibernate.jdbc.batch_size">50</property>
+        <property name="hibernate.jdbc.fetch_size">50</property>
+
+        <mapping class="org.example.Tables.Actor"/>
+        <mapping class="org.example.Tables.Genre"/>
+        <mapping class="org.example.Tables.Movie"/>
+        <mapping class="org.example.Tables.Rating"/>
+        <mapping class="org.example.Tables.Subscription"/>
+        <mapping class="org.example.Tables.User"/>
+        <mapping class="org.example.Tables.WatchHistory"/>
+    </session-factory>
+</hibernate-configuration>
