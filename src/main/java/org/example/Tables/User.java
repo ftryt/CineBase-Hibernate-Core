@@ -1,5 +1,8 @@
 package org.example.Tables;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -11,6 +14,11 @@ import java.util.Set;
 @Table(name = "Users", indexes = {
         @Index(name = "idx_user_name", columnList = "last_name, first_name")
 })
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id",
+        scope = User.class
+)
 public class User {
     // Stores platform users
 
@@ -38,6 +46,10 @@ public class User {
 
     public Set<Movie> getMovies() {
         return movies;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public void setMovies(Set<Movie> movies) {

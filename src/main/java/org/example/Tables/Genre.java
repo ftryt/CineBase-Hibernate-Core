@@ -1,9 +1,16 @@
 package org.example.Tables;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "Genres")
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id",
+        scope = Genre.class
+)
 public class Genre {
     // Stores categories like Action, Drama, Comedy
     @Id
@@ -14,6 +21,10 @@ public class Genre {
 
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getGenre_name() {
