@@ -54,40 +54,62 @@ public class DataExchangeService {
         }
     }
 
-    public void fullImport(String filePath, SessionFactory factory){
+    public void fullImport(String filePath, SessionFactory factory) {
+        // Carefully!! it removes all previous data
         try {
-            DatabaseSnapshot databaseSnapshot = mapper.readValue(new File(filePath), DatabaseSnapshot.class);
+            DatabaseSnapshot snapshot = mapper.readValue(new File(filePath), DatabaseSnapshot.class);
 
             try (Session session = factory.openSession()) {
                 session.beginTransaction();
 
-                // For proper loading in database all parent classes with ids should exist
+                // Clear all prev data, using native query its faster
+                session.createNativeQuery("TRUNCATE TABLE Watch_History").executeUpdate();
+                session.createNativeQuery("TRUNCATE TABLE Ratings").executeUpdate();
+                session.createNativeQuery("TRUNCATE TABLE Subscription").executeUpdate();
+                session.createNativeQuery("TRUNCATE TABLE Movie_Actors").executeUpdate();
+                session.createNativeQuery("TRUNCATE TABLE Watchlist_User_Movie").executeUpdate();
+                session.createNativeQuery("TRUNCATE TABLE Movie_Genres").executeUpdate();
+                session.createNativeQuery("TRUNCATE TABLE Movies").executeUpdate();
+                session.createNativeQuery("TRUNCATE TABLE Actors").executeUpdate();
+                session.createNativeQuery("TRUNCATE TABLE Genres").executeUpdate();
+                session.createNativeQuery("TRUNCATE TABLE Users").executeUpdate();
 
-                for (Actor a: databaseSnapshot.getActors()) {
+                // Creating new entries
+                for (Actor a : snapshot.getActors()) {
                     a.setId(null);
                     session.persist(a);
                 }
-
-                for (Genre g: databaseSnapshot.getGenres()) {
+                for (Genre g : snapshot.getGenres()) {
                     g.setId(null);
-                    session.merge(g);
+                    session.persist(g);
                 }
-
-                for (Movie m: databaseSnapshot.getMovies()) {
-                    m.setId(null);
-                    session.merge(m);
-                }
-                for (User u: databaseSnapshot.getUsers()) session.merge(u);
-
                 session.flush();
-                session.clear();
 
-                for (Rating r: databaseSnapshot.getRatings()) session.merge(r);
-                for (Subscription s: databaseSnapshot.getSubscriptions()) session.merge(s);
-                for (WatchHistory wh: databaseSnapshot.getWatchHistories()) session.merge(wh);
+                for (Movie m : snapshot.getMovies()) {
+                    m.setId(null);
+                    session.persist(m);
+                }
+                for (User u : snapshot.getUsers()) {
+                    u.setId(null);
+                    session.persist(u);
+                }
+                session.flush();
+
+                for (Rating r : snapshot.getRatings()) {
+                    r.setId(null);
+                    session.persist(r);
+                }
+                for (Subscription s : snapshot.getSubscriptions()) {
+                    s.setId(null);
+                    session.persist(s);
+                }
+                for (WatchHistory wh : snapshot.getWatchHistories()) {
+                    wh.setId(null);
+                    session.persist(wh);
+                }
 
                 session.getTransaction().commit();
-                System.out.println("Data was imported!");
+                System.out.println("Import finished!");
             }
         } catch (Exception e) {
             e.printStackTrace();
