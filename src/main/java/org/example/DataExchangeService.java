@@ -1,7 +1,5 @@
 package org.example;
 
-import com.fasterxml.jackson.core.exc.StreamReadException;
-import com.fasterxml.jackson.databind.DatabindException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -10,9 +8,9 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.List;
 
+// Serves for importing db to file and exporting
 public class DataExchangeService {
     private final ObjectMapper mapper;
 
@@ -22,16 +20,6 @@ public class DataExchangeService {
 
         // optional but recommended for LocalDateTime
         mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-    }
-
-    public void exportUsersToJson(List<User> users, String filePath) {
-        try {
-            mapper.writerWithDefaultPrettyPrinter().writeValue(new File(filePath), users);
-
-            System.out.println("Export finished successfully!");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     public void fullExport(String filePath, SessionFactory factory){

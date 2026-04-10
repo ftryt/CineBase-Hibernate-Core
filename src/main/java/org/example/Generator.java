@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.*;
 
+// Serves for filling DB with data
 public class Generator {
     private Faker faker;
 

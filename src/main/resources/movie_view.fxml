@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="org.example.controller.MovieController">
+
+    <padding>
+        <Insets top="15" right="15" bottom="15" left="15"/>
+    </padding>
+
+    <top>
+        <Label text="CineBase: Movies Management" style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;">
+            <BorderPane.margin>
+                <Insets bottom="15"/>
+            </BorderPane.margin>
+        </Label>
+    </top>
+
+    <center>
+        <TableView fx:id="movieTable" prefWidth="650" prefHeight="550">
+            <columns>
+                <TableColumn fx:id="titleCol" text="Title" prefWidth="150"/>
+                <TableColumn fx:id="releaseCol" text="Release Date" prefWidth="90"/>
+                <TableColumn fx:id="languageCol" text="Language" prefWidth="80"/>
+                <TableColumn fx:id="genresCol" text="Genres" prefWidth="150"/>
+                <TableColumn fx:id="actorsCol" text="Actors" prefWidth="180"/>
+            </columns>
+        </TableView>
+    </center>
+
+    <right>
+        <VBox spacing="10" prefWidth="300">
+            <BorderPane.margin>
+                <Insets left="20"/>
+            </BorderPane.margin>
+
+            <Label text="Movie details:" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+
+            <Separator/> <Label text="Title:"/>
+            <TextField fx:id="titleInput" promptText="Enter movie title..."/>
+
+            <Label text="Release Date:"/>
+            <DatePicker fx:id="releaseDatePicker" prefWidth="300" promptText="Select date..."/>
+
+            <Label text="Language:"/>
+            <TextField fx:id="languageInput" promptText="e.g. English"/>
+
+            <Label text="Select Genres (Hold Ctrl for multiple):"/>
+            <ListView fx:id="genreListView" prefHeight="120"/>
+
+            <Label text="Select Actors (Hold Ctrl for multiple):"/>
+            <ListView fx:id="actorListView" prefHeight="150"/>
+
+            <Separator/>
+
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Button text="Add" onAction="#handleAdd" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-weight: bold;" prefWidth="80"/>
+                <Button text="Update" onAction="#handleUpdate" style="-fx-background-color: #2196F3; -fx-text-fill: white; -fx-font-weight: bold;" prefWidth="80"/>
+                <Button text="Delete" onAction="#handleDelete" style="-fx-background-color: #f44336; -fx-text-fill: white; -fx-font-weight: bold;" prefWidth="80"/>
+            </HBox>
+
+            <Button text="Clear Form" onAction="#clearForm" prefWidth="300"/>
+
+        </VBox>
+    </right>
+
+</BorderPane>
